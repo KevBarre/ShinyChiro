@@ -4,7 +4,7 @@ require(maptools)
 library(sp)
 library(raster)
 
-source("module.R")
+source("bufferInput.R")
 
 ui <- fluidPage(
   # File inputs
