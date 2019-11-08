@@ -34,7 +34,7 @@ bufferInput <- function(input, output, session, id){
 
     if(input$active_buffer)
       numericInput(ns("buffer_width"),
-                   paste("Width for buffer",id,"in meters"),
+                   paste("Rayon du buffer",id,"en m"),
                    value = 1)
     else
       NULL
