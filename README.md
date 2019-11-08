@@ -1,2 +1,2 @@
 # ShinyChiro
-A Shiny App for Vigie-Chiro
+A Shiny App to compute land-use proportion 
