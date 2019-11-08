@@ -1,8 +1,11 @@
+library(rgdal)
 library(shiny)
 library(data.table)
-require(maptools)
+library(maptools)
 library(sp)
 library(raster)
+library(tools)
+library(utils)
 
 source("bufferInput.R")
 
@@ -13,12 +16,16 @@ ui <- fluidPage(
   fileInput("habitats", "Choisir le raster habitat"),
   textOutput("habitats_out"),
 
+
   # Buffers definition
   lapply(1:10, bufferInputUI),
   actionButton("dev","Dev")
 )
 
 server <- function(input, output, session){
+
+  # upload size
+  options(shiny.maxRequestSize=1024*1024^2)
 
   # variable init
   rv = reactiveValues()
@@ -31,6 +38,7 @@ server <- function(input, output, session){
   # reactivity
 
   ## Files reactive
+
   observeEvent(input$habitats, {
 
     output$habitats_out <- renderText({
@@ -40,10 +48,13 @@ server <- function(input, output, session){
 
       )
 
+      #shinyalert("Please wait", "Raster file is loading", type = "info")
+
       # if passed
       # set Points reactive
       rv$Hab <- reactive({
-        raster(input$habitats$datapath)
+
+        raster::brick(input$habitats$datapath)
       })
 
       # return message
@@ -57,14 +68,14 @@ server <- function(input, output, session){
       # validity check
       # browser()
       validate(
-        need({grep("shp$", input$points$name)}, "Not a shapefile")
-
+        need({grep("application/x-zip-compressed$", input$points$type)}, "Not a zipfile")
       )
 
       # if passed
       # set Points reactive
+      pts_unzip <- unzip(input$points$datapath, exdir = dirname(input$points$datapath))
       rv$Points <- reactive({
-        raster(input$points$datapath)
+        readOGR(dsn = dirname(pts_unzip)[1],layer = file_path_sans_ext(basename(pts_unzip))[1])
       })
 
       # return message
