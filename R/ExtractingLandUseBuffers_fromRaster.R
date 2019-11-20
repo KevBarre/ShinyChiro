@@ -1,15 +1,3 @@
-##############################################################################################################
-# This script allows to extract land-use proportions around points in several radius from a raster layer.
-# Land-use layers used available here: http://osr-cesbio.ups-tlse.fr/echangeswww/TheiaOSO/OCS_2018_CESBIO.tif
-# With the help of Yves Bas
-##############################################################################################################
-
-# dir.posPoints = directory of point file location
-# name.points = point file name, without extension
-# bw = one or several buffer size in meter (ex : 50 or c(50,100))
-# id = column name to keep in the output (ex: "inc")
-# dir.posEnvironmentalLayers = directory of raster location (only one)
-# WorkingDirectory = directory at which to save the outpout (ex: "C:/Users/barre/Desktop/")
 extractLandUseRaster=function(Points,
                               bufwidth,
                               ID,
